@@ -27,8 +27,8 @@ class UsersController implements ControllerInterface
             header("Location: /");
         }
 
-        if($request->getHttpMethod() === "POST" && isset($_POST["search"])){
-            $this->search = $_POST["search"];
+        if($request->getHttpMethod() === "GET" && isset($_GET["search"])){
+            $this->search = $_GET["search"];
         }
 
         $users = [];
