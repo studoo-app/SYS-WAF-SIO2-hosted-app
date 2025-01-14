@@ -1,0 +1,108 @@
+version: "3.0"
+silent: true
+
+vars:
+  #
+  # TASKFILE
+  VERSION: 1.O
+  CONTRIBUTOR: "Julien Pechberty"
+  #
+  # SYSTEM
+  PWD: $PWD
+
+tasks:
+  default:
+    cmds:
+      - task: help
+
+  help:
+    desc: "Display this help message"
+    cmds:
+      - echo "Welcome to Taskfile for Saraa Stack"
+      - echo "Author -> {{.CONTRIBUTOR}}"
+      - echo " 📦 YOUR SYSTEM ---------------------------------------------------------"
+      - echo "Version {{.VERSION}}" / System "{{OS}}" / "{{ARCH}}"
+      - echo " 🎛️ TASKS LIST ----------------------------------------------------------"
+      - task --list
+
+  test-unsecure:
+    desc: "Run tests suite on the unsecure server"
+    cmds:
+      # Banner
+      - echo -e "\033[1;34m##########################################\033[0m"
+      - echo -e "\033[1;34mRunning OWASP tests on the unsecured server\033[0m"
+      - echo -e "\033[1;34m##########################################\033[0m"
+      - echo -e ""
+      # Test for SQL Injection
+      - echo -e "\033[1;34mTesting for SQL Injection\033[0m"
+      - echo -e "\033[1;34m--------------------------------\033[0m"
+      - http GET "http://server/vulnerable_endpoint?param=' OR 1=1 --"
+      - echo -e "\033[1;34m--------------------------------\033[0m"
+      - sleep 1
+      # Cross-Site Scripting
+      - echo -e "\033[1;34mTesting for Cross-Site Scripting\033[0m"
+      - echo -e "\033[1;34m--------------------------------\033[0m"
+      - http GET "http://server/vulnerable_endpoint?param=<script>alert('XSS')</script>"
+      - echo -e "\033[1;34m--------------------------------\033[0m"
+      - sleep 1
+      # Command Injection
+      - echo -e "\033[1;34mTesting for Command Injection\033[0m"
+      - echo -e "\033[1;34m--------------------------------\033[0m"
+      - http POST "http://server/vulnerable_endpoint" param="; ls -la"
+      - echo -e "\033[1;34m--------------------------------\033[0m"
+      - sleep 1
+      # Path Traversal
+      - echo -e "\033[1;34mTesting for Path Traversal\033[0m"
+      - echo -e "\033[1;34m--------------------------------\033[0m"
+      - http GET "http://server/vulnerable_endpoint?file=../../etc/passwd"
+      - echo -e "\033[1;34m--------------------------------\033[0m"
+      - sleep 1
+      # Test Method Delete
+      - echo -e "\033[1;34mTesting for Method Delete\033[0m"
+      - echo -e "\033[1;34m--------------------------------\033[0m"
+      - http DELETE "http://server/vulnerable_endpoint"
+      - echo -e "\033[1;34m--------------------------------\033[0m"
+      - sleep 1
+      # Final Message
+      - echo -e "\033[1;32mAll tests passed!\033[0m"
+
+  test-secure:
+    desc: "Run tests suite on the secure server"
+    cmds:
+      # Banner
+      - echo -e "\033[1;34m##########################################\033[0m"
+      - echo -e "\033[1;34mRunning OWASP tests on the secured server\033[0m"
+      - echo -e "\033[1;34m##########################################\033[0m"
+      - echo -e ""
+      # Test for SQL Injection
+      - echo -e "\033[1;34mTesting for SQL Injection\033[0m"
+      - echo -e "\033[1;34m--------------------------------\033[0m"
+      - http GET "http://secured-server/vulnerable_endpoint?param=' OR 1=1 --"
+      - echo -e "\033[1;34m--------------------------------\033[0m"
+      - sleep 1
+      # Cross-Site Scripting
+      - echo -e "\033[1;34mTesting for Cross-Site Scripting\033[0m"
+      - echo -e "\033[1;34m--------------------------------\033[0m"
+      - http GET "http://secured-server/vulnerable_endpoint?param=<script>alert('XSS')</script>"
+      - echo -e "\033[1;34m--------------------------------\033[0m"
+      - sleep 1
+      # Command Injection
+      - echo -e "\033[1;34mTesting for Command Injection\033[0m"
+      - echo -e "\033[1;34m--------------------------------\033[0m"
+      - http POST "http://secured-server/vulnerable_endpoint" param="; ls -la"
+      - echo -e "\033[1;34m--------------------------------\033[0m"
+      - sleep 1
+      # Path Traversal
+      - echo -e "\033[1;34mTesting for Path Traversal\033[0m"
+      - echo -e "\033[1;34m--------------------------------\033[0m"
+      - http GET "http://secured-server/vulnerable_endpoint?file=../../etc/passwd"
+      - echo -e "\033[1;34m--------------------------------\033[0m"
+      - sleep 1
+      # Test Method Delete
+      - echo -e "\033[1;34mTesting for Method Delete\033[0m"
+      - echo -e "\033[1;34m--------------------------------\033[0m"
+      - http DELETE "http://secured-server/vulnerable_endpoint"
+      - echo -e "\033[1;34m--------------------------------\033[0m"
+      - sleep 1
+      # Final Message
+      - echo -e "\033[1;32mAll tests passed!\033[0m"

@@ -1,4 +1,23 @@
 services:
+  client:
+    container_name: client
+    build:
+      context: .
+      dockerfile: ./utils/recipes/Dockerfile_client
+    tty: true
+    volumes:
+      - ./utils/storage/client/Taskfile.yaml:/root/Taskfile.yaml
+  secured-server:
+    container_name: secured-server
+    build:
+      context: .
+      dockerfile: ./utils/recipes/Dockerfile_server
+    volumes:
+      - .:/app
+    ports:
+      - "8002:80"
+    environment:
+      - SERVER_NAME=:80
   database:
     container_name: edu-web-database
     image: mariadb:10.5.8
