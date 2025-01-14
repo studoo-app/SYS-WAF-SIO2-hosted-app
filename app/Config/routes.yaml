@@ -1,0 +1,13 @@
+login:
+    uri: /
+    controller: Controller\LoginController
+    httpMethod: [GET, POST]
+logout:
+    uri: /logout
+    controller: Controller\LogoutController
+    httpMethod: [GET]
+users:
+    uri: /users
+    controller: Controller\UsersController
+    httpMethod: [GET, POST]
+

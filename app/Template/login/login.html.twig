@@ -1,0 +1,35 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ titre }}{% endblock %}
+
+{% block content %}
+    <form method="post">
+        <fieldset>
+            <label>
+                Email
+                <input
+                        type="email"
+                        name="email"
+                        placeholder="Email"
+                        autocomplete="email"
+                />
+            </label>
+            <label>
+                Password
+                <input
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                />
+            </label>
+        </fieldset>
+
+        <input
+                type="submit"
+                value="Login"
+        />
+    </form>
+    {% if errors %}
+        <div>{{ errors }}</div>
+    {% endif %}
+{% endblock %}
